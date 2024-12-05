@@ -1,3 +1,5 @@
+package Semanas
+
 class semana1 {
   
   

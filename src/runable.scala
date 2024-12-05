@@ -1,3 +1,5 @@
+import Semanas.semana1
+
 object runable extends App{
 
   val ingredient = ("sugar", 25, "white")

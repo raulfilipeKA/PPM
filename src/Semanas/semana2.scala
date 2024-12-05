@@ -1,3 +1,5 @@
+package Semanas
+
 object semana2 extends App{
   val x = 1
   val li1= 1::(2::(3::(4::Nil)))
