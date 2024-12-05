@@ -1,0 +1,17 @@
+# Ignore build output directories
+/out/
+
+# Ignore IntelliJ IDEA project files
+.idea/
+*.iml
+
+# Ignore Scala compiled files
+*.class
+*.jar
+*.war
+
+# Ignore logs
+*.log
+
+# Ignore temporary files
+*.tmp
