@@ -1,4 +1,4 @@
-object Pratica {
+object Pratica extends App{
   def sumMultiply(a: Int, b: Int): (Int, Int) = { // 1a
     val c = a + b
     val d = a * b

@@ -1,4 +1,4 @@
-import Semanas.semana1
+import Semanas.*
 
 object runable extends App{
 
