@@ -9,7 +9,6 @@ object runable extends App{
   val semana1Instance = new semana1
   val result = semana1Instance.func2((1, 2), (3, 4))
   println({
-    result
     (result._1+1,result._2+2)
   })
   println(11.0/2)
