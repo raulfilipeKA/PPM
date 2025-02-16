@@ -1,8 +1,8 @@
 package Semanas
 
-import scala.::
+//import scala.::
 import scala.annotation.tailrec
-import scala.collection.immutable.::
+//import scala.collection.immutable.::
 
 object semana3 extends App {
 
