@@ -1,6 +1,6 @@
 package Aulas2025
 
-object Semana1 extends App{  //extends App is used to run the object as a program
+object Semana01 extends App{  //extends App is used to run the object as a program
                              //object instead of class is used to create a singleton object
   def ex1(a:Int) ={
     a+1
