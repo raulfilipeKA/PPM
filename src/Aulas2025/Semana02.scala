@@ -65,13 +65,48 @@ object Semana02 extends App{
   }
   println(concat(list, List(7, 8)))
   print("E) ")
-//  def sumPairs24(list: List[Int, Int]): Int ={
-//    list match {
-//      case   => 0
-//      case x::y::Nil => x + y
-//      case x::y::xs => x + y + sumPairs24(xs)
-//    }
+  def sumPairs24(list: List[(Int, Int)]): Int = {
+    if (list.length < 3) 0
+    else if (list.length < 5) {
+      list(2)._1 + list(2)._2
+    }
+    else {
+      list(2)._1 + list(2)._2 + sumPairs24(list.drop(3))
+    }
+  }
+  //                         0       1       2       3       4         5
+  println(sumPairs24(List((1, 2), (3, 4), (5, 6), (7, 8), (9, 10), (11, 12))))
+  println(sumPairs24(List((1, 2), (3, 4), (5, 6), (7, 8), (9, 10))))
+  println(sumPairs24(List((1, 2), (3, 4), (5, 6), (7, 8))))
+  println(sumPairs24(List((1, 2), (3, 4))))
+  println(sumPairs24(List((1, 2))))
+  println(sumPairs24(List()))
+  print("F) ")
+  def sumAndLength(list: List[Double]): (Double, Int) = {
+    list match{
+      case Nil => (0, 0)
+      case x::xs => (x + sumAndLength(xs)._1, 1 + sumAndLength(xs)._2)
+    }
+  }
+  println(sumAndLength(List(1, 2, 3, 4, 5, 6)))
+
+  def average(list: List[Double]): Double = {
+    val aux = sumAndLength(list)
+    aux._1 / aux._2
+  }
+  println("Average" + average(List(1, 2, 3, 4, 5, 6)))
+  
+//  def divideList(list: List[Int], c: Int): (List[Int], List[Int]) = {
+//    
 //  }
+//  
+//  def divideListAux(list1: List[Int], list2: List[Int]): List[Int] = {
+//    
+//  }
+
+
+
+
 
 
 

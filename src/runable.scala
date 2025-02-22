@@ -5,12 +5,7 @@ object runable extends App{
   val ingredient = ("sugar", 25, "white")
   println(ingredient._1)
   println(ingredient._2.getClass)
-
-  val semana1Instance = new semana1
-  val result = semana1Instance.func2((1, 2), (3, 4))
-  println({
-    (result._1+1,result._2+2)
-  })
+  
   println(11.0/2)
   println(11.0%2)
 

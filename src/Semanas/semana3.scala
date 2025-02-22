@@ -48,6 +48,9 @@ object semana3 extends App {
     case x :: xs1 => x :: append(xs1, ys)
   }
 
+  val A = List(1, 2, 3)
+  print(append(A, List(4, 5, 6)))
+
   def isOdd(n: Int) = n % 2 != 0
 
   val (x, y) = xs partition isOdd
