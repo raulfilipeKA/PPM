@@ -95,13 +95,13 @@ object Semana02 extends App{
     aux._1 / aux._2
   }
   println("Average" + average(List(1, 2, 3, 4, 5, 6)))
-  
+
 //  def divideList(list: List[Int], c: Int): (List[Int], List[Int]) = {
-//    
+//    todo
 //  }
-//  
+//
 //  def divideListAux(list1: List[Int], list2: List[Int]): List[Int] = {
-//    
+//    todo
 //  }
 
 
