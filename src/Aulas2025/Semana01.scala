@@ -62,21 +62,38 @@ object Semana01 extends App{  //extends App is used to run the object as a progr
   println(b(1, 3, 2))
   println(b(2, 1, 3))
   println(b(-1, -3, 0))
-
+  
   //c
-  def c(a: Int, b: Int, c: Int): Boolean = {
-    val l = Semana01.b(a, b, c) //temos que meter Semana01. por conta da ambiguidade do nome do param e da funcao
-    val la = l._1 - l._2
-    if (la < a && la < b && la < c) (true)
-    else (false)
+  def c(a: Int, b: Int, c:Int): (Int, Int, Int) ={
+    if (a >= b && a >= c){
+      
+      if (b >= c) {return (a, b, c)}
+      else {return (a, c, b)}
+    }
+    if (b >= a && b >= c){
+      if (a >= c) {return (b, a, c)}
+      else {return (b, c, a)}
+    }
+    else {
+      if (a >= b) {return (c, a, b)}
+      else {return (c, b, a)}
+    }
   }
 
-  println(c(6, 6, 6))
-  println(c(1, 2, 3))
-  println((1, 2, 3))
-  println(c(22, 32, 12))
-
   //d
+  def d(a: Int, b: Int, c: Int): Boolean = {
+    val l = Semana01.b(a, b, c) //temos que meter Semana01. por conta da ambiguidade do nome do param e da funcao
+    val la = l._1 - l._2
+    if (la < a && la < b && la < c) true
+    else false
+  }
+
+  println(d(6, 6, 6))
+  println(d(1, 2, 3))
+  println((1, 2, 3))
+  println(d(22, 32, 12))
+
+  //e
   def abrev(x: String): String = {
     val l = x.split(" ")
     //l(0) + " " + l(l.length-1)

@@ -96,53 +96,101 @@ object Semana02 extends App{
   }
   println("Average" + average(List(1, 2, 3, 4, 5, 6)))
 
-//  def divideList(list: List[Int], c: Int): (List[Int], List[Int]) = {
-//    todo
-//  }
-//
-//  def divideListAux(list1: List[Int], list2: List[Int]): List[Int] = {
-//    todo
-//  }
+  println("G) ")
+  def divideList(list: List[Double], c: Double): (List[Double], List[Double]) = {
+    val list1 = List()
+    val list2 = List()
+    return divideListAux(list, list1, list2, c)
 
 
+  }
 
+  def divideListAux(list: List[Double], list1: List[Double], list2: List[Double], c: Double): (List[Double], List[Double]) = {
+    list match {
+      case Nil => (list1, list2)
+      case x::xs => if (x < c) divideListAux(xs, list1:+x, list2, c)
+      else divideListAux(xs, list1, list2:+x, c)
+    }
+  }
 
-
-
-
-
-
-
+  //test
+  println("divideList 123456 , 3 " + divideList(List(1, 2, 3, 4, 5, 6), 3))
 
   val fruit = List("apples", "oranges", "pears")
   val nums = List(1, 2, 3)
   val diag3 = List(List(1, 0, 0), List(0, 1, 0), List(0, 0, 1))
   val empty = List()
 
-  def divide1(list: List[Int]): (List[Int], List[Int]) = {
-    def helper(orig: List[Int], firstHalf: List[Int], count: Int): (List[Int], List[Int]) = orig match {
-      case Nil => (firstHalf, Nil) // Se a lista original for vazia, retorna acumulador e lista vazia
-      case _ if count == 0 => (firstHalf, orig) // Quando atingimos a metade, retorna as duas listas
-      case x :: xs => helper(xs, firstHalf :+ x, count - 1) // Adicionamos à primeira metade
+  println("Exercise 2")
+  type Entry = (String, String, String)
+  type LTelef = List[Entry]
+  def emails ( list: LTelef): List[String] = {
+    list match {
+      case Nil => Nil
+      case (_, _, email) :: xs => email :: emails(xs)
     }
-    helper(list, Nil, list.length / 2)
   }
-  println(divide1(List(1, 2, 3, 4)))
-
-  def divide[A](list: List[A]): (List[A], List[A]) = {
-    def helper(remaining: List[A], firstHalf: List[A], secondHalf: List[A], index: Int, mid: Int): (List[A], List[A]) = {
-      remaining match {
-        case Nil => (firstHalf.reverse, secondHalf.reverse)
-        case head :: tail =>
-          if (index < mid) helper(tail, head :: firstHalf, secondHalf, index + 1, mid)
-          else helper(tail, firstHalf, head :: secondHalf, index + 1, mid)
-      }
+  def cell2 (list: LTelef): List[String] = {
+    list match {
+      case Nil => Nil
+      case (_, cell, _) :: xs => if (cell.head == "2") cell :: cell2(xs)
+      else cell2(xs)
     }
-
-    val mid = (list.length + 1) / 2
-    helper(list, Nil, Nil, 0, mid)
   }
 
+  //testar cell2
 
+  // Test data
+  val phoneBook: LTelef = List(
+    ("John Doe", "123456789", "john@example.com"),
+    ("Jane Smith", "234567890", "jane@example.com"),
+    ("Alice Johnson", "345678901", "alice@example.com"),
+    ("Bob Brown", "223344556", "bob@example.com")
+  )
+
+  // Test the emails function
+  println("Emails: " + emails(phoneBook))
+
+  // Test the cell2 function
+  println("Cell numbers starting with '2': " + cell2(phoneBook))
+
+  def search(list: LTelef, name: String): List[(String, String)] = {
+    list match {
+      case Nil => Nil
+      case (n, phone, email) :: xs => if (n == name) (phone, email) :: search(xs, name)
+      else search(xs, name)
+    }
+  }
+
+  // Test the search function
+  val searchResult = search(phoneBook, "John Doe")
+  println(s"Search result " + searchResult)
+
+  println("Exercício Extra - Polymorphic method " +
+    "without List methods take or takeRight")
+
+  def divide[T](list:List[T]): (List[T], List[T]) = {
+    val (list1, list2) = list.splitAt(list.length / 2)
+    (list1, list2)
+  }
+  //test
+  println(divide(List(1, 2, 3, 4, 5, 6)))
+  println(divide(List(1, 2, 3, 4, 5)))
+  println("agora sem splitAt que nao é recursivo")
+  def divide1[T](list:List[T]): (List[T], List[T]) = {
+    val split = list.length / 2
+    divideAux(list, Nil, Nil, split)
+  }
+
+  def divideAux[T](list:List[T], list1:List[T], list2:List[T], c:Int): (List[T], List[T]) = {
+    list match {
+      case Nil => (list1, list2)
+      case x::xs => if (c > 0) divideAux(xs, list1:+x, list2, c-1)
+      else divideAux(xs, list1, list2:+x, c)
+    }
+  }
+
+  println(divide1(List(1, 2, 3, 4, 5, 6)))
+  println(divide1(List(1, 2, 3, 4, 5)))
 
 }
