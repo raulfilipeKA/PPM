@@ -1,13 +1,13 @@
 package Projeto2025
 
-import Projeto2025.MyRandom
+import scala.util.Random
 
 class Tarefas {
 
   type Board = List[List[Char]]
   type Coord2D = (Int, Int) //(row, column)
   type Stone = (Coord2D, Char)
-  type lstOpenCoords = List[Coord2D] // (size**2 - this.len) == numero de jogadas (par P1, ímpar P2)
+  type LstOpenCoords = List[Coord2D] // (size**2 - this.len) == numero de jogadas (par P1, ímpar P2)
   
   
   object Turn extends Enumeration {
@@ -19,7 +19,7 @@ class Tarefas {
       case W => B
     }
     def startingTurn: Turn = {
-      val turn = MyRandom.headOrTail
+      val turn = Random.nextBoolean()
       turn match {
         case true => B
         case _ => W
@@ -37,23 +37,33 @@ class Tarefas {
   }
 
   // Function to set the value at a specific coordinate
-  def placeStone(board: Board, coord: Coord2D, value: Char): Board = {
+  def placeStone(board: Board, coord: Coord2D, value: Char, lstOpenCoords: LstOpenCoords): (Board, LstOpenCoords) = {
     val (row, col) = coord
-    if(board(row)(col) != '.') throw new IllegalStateException("Cell already occupied")
+    if (board(row)(col) != 'E') throw new IllegalStateException("Cell already occupied")
+
     value match {
-      case 'B'|'W' => {
-        board(row).updated(col, value)
-        lst 
+      case 'B' | 'W' | 'E' => {
+        // Atualiza o board
+        val updatedBoard = board.updated(row, board(row).updated(col, value))
+        // Remove a coordenada da lista de coordenadas livres
+        val updatedCoords = removeItem(lstOpenCoords, coord)
+        (updatedBoard, updatedCoords)  // Devolve o board atualizado e a lista de coordenadas livres
       }
-      case 'E' => board(row).updated(col, value)
-      //case 'E' => board(row).updated(col, '.') //so fazemos '.' para o print do tabuleiro
       case _ => throw new IllegalArgumentException("Invalid letter")
     }
-    board.updated(row, board(row).updated(col, value))
+  }
+
+
+  // Function to remove an item from a list
+  def removeItem[T](list: List[T], item: T): List[T] = list match {
+    case Nil => Nil
+    case head :: tail if head == item => removeItem(tail, item)
+    case head :: tail => head :: removeItem(tail, item)
   }
 
   //T1
   //lstOpenCoords sao as coordenadas livres (E)
+  // na funcao que usar randomMove, vou ter que criar uma instância de MyRandom para passar
   def randomMove(lstOpenCoords: List[Coord2D], rand: MyRandom): (Coord2D, MyRandom) = {
     if (lstOpenCoords.isEmpty) throw new IllegalArgumentException()
     rand.nextCoord(lstOpenCoords) // Apenas retorna a coordenada, faz se a validação depois na jogada
