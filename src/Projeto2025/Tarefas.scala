@@ -27,11 +27,16 @@ class Tarefas {
     }
   }
 
+  def whoseTurn(board: Board, lstOpenCoords: LstOpenCoords): Char = { //alterar caso se pretenda outro a iniciar
+    if(board.length-lstOpenCoords.length %2 ==0) 'B'
+    else 'W'
+  }
+
   def getValueAt(board: Board, coord: Coord2D): Char = {
     val (row, col) = coord
     //val stone = board(row)(col)
     //stone._2
-    board(row)(col)._2 
+    board(row)(col)._2
   }
   
   def cellIsEmpty(board: Board, coord: Coord2D): Boolean = {
@@ -71,10 +76,23 @@ class Tarefas {
   //lstOpenCoords sao as coordenadas livres (E)
   // na funcao que usar randomMove, vou ter que criar uma instância de MyRandom para passar
   def randomMove(lstOpenCoords: List[Coord2D], rand: MyRandom): (Coord2D, MyRandom) = {
-    if (lstOpenCoords.isEmpty) throw new IllegalArgumentException()
-    rand.nextCoord(lstOpenCoords) // Apenas retorna a coordenada, faz se a validação depois na jogada
-    // todo makeMove(lstOpenCoords, )
+    if (lstOpenCoords.isEmpty) throw new IllegalStateException()
+    rand.nextCoord(lstOpenCoords) // Apenas retorna a coordenada e o novo rand (ver implementação de nextCoord)
   }
+
+  //T2
+  def play(board:Board, player: Stone, coord:Coord2D, lstOpenCoords:List[Coord2D]):(Option[Board], List[Coord2D])={
+    if (cellIsEmpty(board, coord)) {
+      val value = whoseTurn(board, lstOpenCoords)
+      placeStone(board, coord, value, lstOpenCoords)
+    } else {
+      throw new IllegalStateException()
+    }
+
+
+  }
+
+  //<html>Found:    (Tarefas.this.Board, Tarefas.this.LstOpenCoords)<br/>Required: (Option[Tarefas.this.Board], List[Tarefas.this.Coord2D])
   
 
 
