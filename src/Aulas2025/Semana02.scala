@@ -130,15 +130,13 @@ object Semana02 extends App{
       case (_, _, email) :: xs => email :: emails(xs)
     }
   }
-  def cell2 (list: LTelef): List[String] = {
+  def cell2(list: LTelef): List[String] = {
     list match {
       case Nil => Nil
-      case (_, cell, _) :: xs => if (cell.head == "2") cell :: cell2(xs)
+      case (_, cell, _) :: xs => if (cell.head == '2') cell :: cell2(xs)
       else cell2(xs)
     }
   }
-
-  //testar cell2
 
   // Test data
   val phoneBook: LTelef = List(

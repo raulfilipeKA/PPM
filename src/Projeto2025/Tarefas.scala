@@ -4,7 +4,7 @@ import scala.util.Random
 
 class Tarefas {
 
-  type Board = List[List[Char]]
+  type Board = List[List[Stone]]
   type Coord2D = (Int, Int) //(row, column)
   type Stone = (Coord2D, Char)
   type LstOpenCoords = List[Coord2D] // (size**2 - this.len) == numero de jogadas (par P1, ímpar P2)
@@ -29,22 +29,28 @@ class Tarefas {
 
   def getValueAt(board: Board, coord: Coord2D): Char = {
     val (row, col) = coord
-    board(row)(col)
+    //val stone = board(row)(col)
+    //stone._2
+    board(row)(col)._2 
   }
   
   def cellIsEmpty(board: Board, coord: Coord2D): Boolean = {
     getValueAt(board, coord) == 'E'
   }
+  def updateBoard(board: Board, coord: Coord2D, value: Char): Board = {
+    val (row, col) = coord
+    board.updated(row, board(row).updated(col, (coord, value)))
+  }
 
   // Function to set the value at a specific coordinate
   def placeStone(board: Board, coord: Coord2D, value: Char, lstOpenCoords: LstOpenCoords): (Board, LstOpenCoords) = {
     val (row, col) = coord
-    if (board(row)(col) != 'E') throw new IllegalStateException("Cell already occupied")
+    if (getValueAt(board, coord) != 'E') throw new IllegalStateException("Cell already occupied")
 
     value match {
       case 'B' | 'W' | 'E' => {
         // Atualiza o board
-        val updatedBoard = board.updated(row, board(row).updated(col, value))
+        val updatedBoard = updateBoard(board, coord, value)
         // Remove a coordenada da lista de coordenadas livres
         val updatedCoords = removeItem(lstOpenCoords, coord)
         (updatedBoard, updatedCoords)  // Devolve o board atualizado e a lista de coordenadas livres
