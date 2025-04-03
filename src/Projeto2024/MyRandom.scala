@@ -1,3 +1,4 @@
+/*
 package Projeto2024
 
 object MyRandom{
@@ -23,3 +24,5 @@ object MyRandom{
   }
 
 }
+
+ */

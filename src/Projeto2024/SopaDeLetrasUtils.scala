@@ -1,3 +1,5 @@
+
+/*
 package Projeto2024
 
 import MyRandom.MyRandom
@@ -167,7 +169,7 @@ object SopaDeLetrasGame extends App { // Objeto principal do jogo
 
       // Imprima o estado final do tabuleiro e as informações do jogo
       SopaDeLetrasUtils.printGameState(finalGameState)
-      
+
       println(s"Jogo terminado. Sua pontuação foi: ${gameState.score}. Tempo total de jogo: $totalTime segundos.")
       SopaDeLetrasUtils.printGameOver()
       System.exit(0)
@@ -175,3 +177,5 @@ object SopaDeLetrasGame extends App { // Objeto principal do jogo
 
   gameLoop(gameState)
 }
+
+ */
