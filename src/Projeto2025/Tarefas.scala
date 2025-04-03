@@ -1,6 +1,7 @@
 package Projeto2025
 
 import scala.util.Random
+import Projeto2025.MyRandom
 
 class Tarefas {
 
@@ -71,6 +72,8 @@ class Tarefas {
     case head :: tail if head == item => removeItem(tail, item)
     case head :: tail => head :: removeItem(tail, item)
   }
+  
+
 
   //T1
   //lstOpenCoords sao as coordenadas livres (E)
