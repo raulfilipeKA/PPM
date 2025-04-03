@@ -72,7 +72,7 @@ class Tarefas {
     case head :: tail if head == item => removeItem(tail, item)
     case head :: tail => head :: removeItem(tail, item)
   }
-  
+
 
 
   //T1
@@ -87,7 +87,14 @@ class Tarefas {
   def play(board:Board, player: Stone, coord:Coord2D, lstOpenCoords:List[Coord2D]):(Option[Board], List[Coord2D])={
     if (cellIsEmpty(board, coord)) {
       val value = whoseTurn(board, lstOpenCoords)
-      placeStone(board, coord, value, lstOpenCoords)
+      val (updatedBoard, updatedCoords) = placeStone(board, coord, value, lstOpenCoords)
+      if (updatedCoords.isEmpty) {
+        // Se não houver mais coordenadas livres, o jogo termina
+        (updatedBoard, updatedCoords)  //todo tipo Option??????
+      } else {
+        // Se ainda houver coordenadas livres, o jogo continua
+        (Some(updatedBoard), updatedCoords)
+      }
     } else {
       throw new IllegalStateException()
     }
