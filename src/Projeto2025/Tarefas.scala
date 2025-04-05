@@ -11,7 +11,7 @@ class Tarefas {
   type LstOpenCoords = List[Coord2D] // (size**2 - this.len) == numero de jogadas (par P1, ímpar P2)
 
 
-  object Turn extends Enumeration {
+  object Turn extends Enumeration {  //ja nao vamos utilizar porque a funcao whoseTurn ja faz o calculo automaticamente de maneira simples
     type Turn = Value
     val B, W = Value
 
@@ -84,11 +84,10 @@ class Tarefas {
     if (lstOpenCoords.isEmpty) throw new IllegalStateException()
     rand.nextCoord(lstOpenCoords) // Apenas retorna a coordenada e o novo rand (ver implementação de nextCoord)
   }
-
+//todo fazer update da lstOpenCoords depois de jogar -> mas so se faz numa funcao ( na place stone que é mais genérica)
   //T2
   def play(board: Board, player: Stone, coord: Coord2D, lstOpenCoords: List[Coord2D]): (Option[Board], List[Coord2D]) = {
     if (cellIsEmpty(board, coord)) {
-      val value = whoseTurn(board, lstOpenCoords)
 
       if (containsInList(lstOpenCoords, coord)) {
         val (updatedBoard, updatedLstOpenCoords) = placeStone(board, coord, lstOpenCoords)

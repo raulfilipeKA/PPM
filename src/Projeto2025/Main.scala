@@ -26,14 +26,14 @@ object Main {
     println(s"Tabuleiro depois de updateBoard($testCoord, 'B'):")
     tarefas.printBoard(updatedBoard)
 
-    // Teste do placeStone
-    val (boardAfterPlacement, updatedCoords) = tarefas.placeStone(board, testCoord, lstOpenCoords)
-    println("Tabuleiro depois de colocar uma pedra:")
-    tarefas.printBoard(boardAfterPlacement)
+//    // Teste do placeStone
+//    val (boardAfterPlacement, updatedCoords) = tarefas.placeStone(board, testCoord, lstOpenCoords)
+//    println("Tabuleiro depois de colocar uma pedra:")
+//    tarefas.printBoard(boardAfterPlacement)
 
-    // Teste do removeItem
-    println(s"Coordenadas antes de remover $testCoord: $lstOpenCoords")
-    println(s"Coordenadas depois: ${tarefas.removeItem(lstOpenCoords, testCoord)}")
+//    // Teste do removeItem
+//    println(s"Coordenadas antes de remover $testCoord: $lstOpenCoords")
+//    println(s"Coordenadas depois: ${tarefas.removeItem(lstOpenCoords, testCoord)}")
 
     // Teste do play
     println("Teste da função play (mesma posição):")
