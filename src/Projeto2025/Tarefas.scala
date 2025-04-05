@@ -9,16 +9,17 @@ class Tarefas {
   type Coord2D = (Int, Int) //(row, column)
   type Stone = (Coord2D, Char)
   type LstOpenCoords = List[Coord2D] // (size**2 - this.len) == numero de jogadas (par P1, ímpar P2)
-  
-  
+
+
   object Turn extends Enumeration {
     type Turn = Value
     val B, W = Value
-    
+
     def next(turn: Turn): Turn = turn match {
       case B => W
       case W => B
     }
+
     def startingTurn: Turn = {
       val turn = Random.nextBoolean()
       turn match {
@@ -29,7 +30,7 @@ class Tarefas {
   }
 
   def whoseTurn(board: Board, lstOpenCoords: LstOpenCoords): Char = { //alterar caso se pretenda outro a iniciar
-    if(board.length-lstOpenCoords.length %2 ==0) 'B'
+    if ((board.length * board(0).length) - lstOpenCoords.length % 2 == 0) 'B'
     else 'W'
   }
 
@@ -39,27 +40,29 @@ class Tarefas {
     //stone._2
     board(row)(col)._2
   }
-  
+
   def cellIsEmpty(board: Board, coord: Coord2D): Boolean = {
     getValueAt(board, coord) == 'E'
   }
+
   def updateBoard(board: Board, coord: Coord2D, value: Char): Board = {
     val (row, col) = coord
     board.updated(row, board(row).updated(col, (coord, value)))
   }
 
   // Function to set the value at a specific coordinate
-  def placeStone(board: Board, coord: Coord2D, value: Char, lstOpenCoords: LstOpenCoords): (Board, LstOpenCoords) = {
+  def placeStone(board: Board, coord: Coord2D, lstOpenCoords: LstOpenCoords): (Board, LstOpenCoords) = {
     val (row, col) = coord
     if (getValueAt(board, coord) != 'E') throw new IllegalStateException("Cell already occupied")
+    val turn = whoseTurn(board, lstOpenCoords)
 
-    value match {
-      case 'B' | 'W' | 'E' => {
+    turn match {
+      case 'B' | 'W' => { //nao vamos jogar Empty e vamos implementar isso num metodo para verificar se "comemos" alguma pedra
         // Atualiza o board
-        val updatedBoard = updateBoard(board, coord, value)
+        val updatedBoard = updateBoard(board, coord, turn)
         // Remove a coordenada da lista de coordenadas livres
         val updatedCoords = removeItem(lstOpenCoords, coord)
-        (updatedBoard, updatedCoords)  // Devolve o board atualizado e a lista de coordenadas livres
+        (updatedBoard, updatedCoords) // Devolve o board atualizado e a lista de coordenadas livres
       }
       case _ => throw new IllegalArgumentException("Invalid letter")
     }
@@ -74,7 +77,6 @@ class Tarefas {
   }
 
 
-
   //T1
   //lstOpenCoords sao as coordenadas livres (E)
   // na funcao que usar randomMove, vou ter que criar uma instância de MyRandom para passar
@@ -84,29 +86,87 @@ class Tarefas {
   }
 
   //T2
-  def play(board:Board, player: Stone, coord:Coord2D, lstOpenCoords:List[Coord2D]):(Option[Board], List[Coord2D])={
+  def play(board: Board, player: Stone, coord: Coord2D, lstOpenCoords: List[Coord2D]): (Option[Board], List[Coord2D]) = {
     if (cellIsEmpty(board, coord)) {
       val value = whoseTurn(board, lstOpenCoords)
-      val (updatedBoard, updatedCoords) = placeStone(board, coord, value, lstOpenCoords)
-      if (updatedCoords.isEmpty) {
-        // Se não houver mais coordenadas livres, o jogo termina
-        (updatedBoard, updatedCoords)  //todo tipo Option??????
+
+      if (containsInList(lstOpenCoords, coord)) {
+        val (updatedBoard, updatedLstOpenCoords) = placeStone(board, coord, lstOpenCoords)
+        //verificar se o jogo terminou
+        if (updatedLstOpenCoords.isEmpty) {
+          println("Game Over") //implementar GameOver
+          (Some(updatedBoard), updatedLstOpenCoords) // tipo Option?????? -> instance of Some or none
+        } else {
+          (Some(updatedBoard), updatedLstOpenCoords) // retorna o tabuleiro atualizado e a lista de coordenadas livres
+        }
       } else {
-        // Se ainda houver coordenadas livres, o jogo continua
-        (Some(updatedBoard), updatedCoords)
+        (Some(board), lstOpenCoords) // retorna o tabuleiro inalterado e a lista de coordenadas livres
       }
     } else {
       throw new IllegalStateException()
+      //ou retorna o tabuleiro inalterado e a lista de coordenadas livres caso nao queiramos rebentar
     }
+  }
 
+  def containsInList[T](list: List[T], item: T): Boolean = {
+    list match {
+      case Nil => false
+      case head :: tail if head == item => true
+      case _ :: tail => containsInList(tail, item)
+    }
+  }
+
+  //T3
+  def playRandomly(board: Board, r: MyRandom, player: Stone, lstOpenCoords: List[Coord2D],
+                   f: (List[Coord2D], MyRandom) => (Coord2D, MyRandom)): (Board, MyRandom, List[Coord2D]) = {
+
+    val (coord, newRand) = f(lstOpenCoords, r) // Obtemos a coordenada aleatória e o novo gerador de números aleatórios
+    val (updatedBoard, updatedLstOpenCoords) = placeStone(board, coord, lstOpenCoords) // Coloca a pedra no tabuleiro
+    (updatedBoard, newRand, updatedLstOpenCoords)
 
   }
 
-  //<html>Found:    (Tarefas.this.Board, Tarefas.this.LstOpenCoords)<br/>Required: (Option[Tarefas.this.Board], List[Tarefas.this.Coord2D])
-  
+  val rand = new MyRandom(42)
+  val tabuleiro = drawBoard(3)
+  val livres = List((0, 0), (0, 1), (0, 2), (1, 0), (1, 1), (1, 2), (2, 0), (2, 1), (2, 2))
+  val player: Stone = ((0, 0), 'B') // só importa o 'B'
+
+  val resultado = playRandomly(tabuleiro, rand, player, livres, randomMove)
 
 
+  def drawBoard(side: Int): Board = {
+    def createRow(row: Int, col: Int): List[Stone] = {
+      if (col >= side) Nil
+      else ((row, col), 'E') :: createRow(row, col + 1)  // Cria uma nova pedra com coordenadas (row, col) e valor 'E' (vazia)
+    }
+    def createBoard(row: Int): Board = {
+      if (row >= side) Nil
+      else createRow(row, 0) :: createBoard(row + 1)
+    }
+    createBoard(0)
+  }
 
+  def printBoard(board: Board): Unit = {
+    def printRow(row: List[Stone]): Unit = {
+      row match {
+        case Nil => println() // fim da linha
+        case (_, value) :: tail =>
+          val charToPrint = value match {
+            case 'E' => '.'
+            case c => c
+          }
+          print(charToPrint + " ")
+          printRow(tail)
+      }
+    }
+
+    board match {
+      case Nil => ()
+      case head :: tail =>
+        printRow(head)
+        printBoard(tail)
+    }
+  }
 
 
 }
