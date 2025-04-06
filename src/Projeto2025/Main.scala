@@ -3,7 +3,7 @@ package Projeto2025
 object Main {
   def main(args: Array[String]): Unit = {
     val tarefas = new Tarefas()
-    val rand = new MyRandom(42)
+    val rand = MyRandom(42) // alterar a seed para verificar outros resultados
     val size = 3
     val board = tarefas.drawBoard(size)
 
@@ -37,7 +37,7 @@ object Main {
 
     // Teste do play
     println("Teste da função play (mesma posição):")
-    val (maybeNewBoard, newLstCoords) = tarefas.play(board, ((0, 0), 'B'), testCoord, lstOpenCoords)
+    val (maybeNewBoard, _) = tarefas.play(board, ((0, 0), 'B'), testCoord, lstOpenCoords)
     maybeNewBoard.foreach { b =>
       tarefas.printBoard(b)
     }

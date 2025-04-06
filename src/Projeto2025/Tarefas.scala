@@ -30,7 +30,7 @@ class Tarefas {
   }
 
   def whoseTurn(board: Board, lstOpenCoords: LstOpenCoords): Char = { //alterar caso se pretenda outro a iniciar
-    if ((board.length * board(0).length) - lstOpenCoords.length % 2 == 0) 'B'
+    if (((board.length * board(0).length) - lstOpenCoords.length) % 2 == 0) 'B'
     else 'W'
   }
 
@@ -52,7 +52,6 @@ class Tarefas {
 
   // Function to set the value at a specific coordinate
   def placeStone(board: Board, coord: Coord2D, lstOpenCoords: LstOpenCoords): (Board, LstOpenCoords) = {
-    val (row, col) = coord
     if (getValueAt(board, coord) != 'E') throw new IllegalStateException("Cell already occupied")
     val turn = whoseTurn(board, lstOpenCoords)
 
@@ -87,7 +86,7 @@ class Tarefas {
 //todo fazer update da lstOpenCoords depois de jogar -> mas so se faz numa funcao ( na place stone que é mais genérica)
   //T2
   def play(board: Board, player: Stone, coord: Coord2D, lstOpenCoords: List[Coord2D]): (Option[Board], List[Coord2D]) = {
-    if (cellIsEmpty(board, coord)) {
+    if (cellIsEmpty(board, coord)) {           // nao me parece necessario o player dado que já passamos a coordenada, ter os dois é redundante
 
       if (containsInList(lstOpenCoords, coord)) {
         val (updatedBoard, updatedLstOpenCoords) = placeStone(board, coord, lstOpenCoords)
@@ -99,11 +98,10 @@ class Tarefas {
           (Some(updatedBoard), updatedLstOpenCoords) // retorna o tabuleiro atualizado e a lista de coordenadas livres
         }
       } else {
-        (Some(board), lstOpenCoords) // retorna o tabuleiro inalterado e a lista de coordenadas livres
+        (None, lstOpenCoords) // retorna None como pedido no enunciado e a lista de coordenadas livres
       }
     } else {
-      throw new IllegalStateException()
-      //ou retorna o tabuleiro inalterado e a lista de coordenadas livres caso nao queiramos rebentar
+      (None, lstOpenCoords)
     }
   }
 
@@ -120,9 +118,10 @@ class Tarefas {
                    f: (List[Coord2D], MyRandom) => (Coord2D, MyRandom)): (Board, MyRandom, List[Coord2D]) = {
 
     val (coord, newRand) = f(lstOpenCoords, r) // Obtemos a coordenada aleatória e o novo gerador de números aleatórios
-    val (updatedBoard, updatedLstOpenCoords) = placeStone(board, coord, lstOpenCoords) // Coloca a pedra no tabuleiro
-    (updatedBoard, newRand, updatedLstOpenCoords)
+    val (updatedBoard, updatedLstOpenCoords) = play(board, player, coord, lstOpenCoords) // Coloca a pedra no tabuleiro (reutiliza a funcao play que ja faz validacoes necessarias para jogar)
 
+    (updatedBoard.get, newRand, updatedLstOpenCoords) // Retorna o tabuleiro atualizado, o novo gerador de números aleatórios e a lista de coordenadas livres
+    //updatedBoard.get vai buscar o tabuleiro ao Option
   }
 
   val rand = new MyRandom(42)
@@ -144,6 +143,7 @@ class Tarefas {
     }
     createBoard(0)
   }
+
 
   def printBoard(board: Board): Unit = {
     def printRow(row: List[Stone]): Unit = {
