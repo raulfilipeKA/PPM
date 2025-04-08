@@ -1,7 +1,7 @@
-package Projeto2025
+package GrupoLM29_RaulAzevedo_TiagoNunes_FranciscoCorreia_FranciscoRibeiro
 
 import scala.util.Random
-import Projeto2025.MyRandom
+import GrupoLM29_RaulAzevedo_TiagoNunes_FranciscoCorreia_FranciscoRibeiro.MyRandom
 
 class Tarefas {
 
