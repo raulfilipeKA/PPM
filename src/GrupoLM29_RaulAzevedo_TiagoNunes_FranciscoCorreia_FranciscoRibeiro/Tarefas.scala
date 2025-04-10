@@ -92,7 +92,6 @@ class Tarefas {
         val (updatedBoard, updatedLstOpenCoords) = placeStone(board, coord, lstOpenCoords)
         //verificar se o jogo terminou
         if (updatedLstOpenCoords.isEmpty) {
-          println("Game Over") //implementar GameOver
           (Some(updatedBoard), updatedLstOpenCoords) // tipo Option?????? -> instance of Some or none
         } else {
           (Some(updatedBoard), updatedLstOpenCoords) // retorna o tabuleiro atualizado e a lista de coordenadas livres
