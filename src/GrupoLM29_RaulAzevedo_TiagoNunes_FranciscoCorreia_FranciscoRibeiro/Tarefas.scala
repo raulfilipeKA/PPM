@@ -54,14 +54,9 @@ class Tarefas {
   def placeStone(board: Board, coord: Coord2D, lstOpenCoords: LstOpenCoords): (Board, LstOpenCoords) = {
     if (getValueAt(board, coord) != 'E') throw new IllegalStateException("Cell already occupied")
     val turn = whoseTurn(board, lstOpenCoords)
-
     turn match {
       case 'B' | 'W' => { //nao vamos jogar Empty e vamos implementar isso num metodo para verificar se "comemos" alguma pedra
-        // Atualiza o board
-        val updatedBoard = updateBoard(board, coord, turn)
-        // Remove a coordenada da lista de coordenadas livres
-        val updatedCoords = removeItem(lstOpenCoords, coord)
-        (updatedBoard, updatedCoords) // Devolve o board atualizado e a lista de coordenadas livres
+        (updateBoard(board, coord, turn), removeItem(lstOpenCoords, coord)) // Devolve o board atualizado e a lista de coordenadas livres
       }
       case _ => throw new IllegalArgumentException("Invalid letter")
     }
