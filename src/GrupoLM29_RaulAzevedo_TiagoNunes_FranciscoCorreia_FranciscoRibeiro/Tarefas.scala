@@ -161,5 +161,17 @@ class Tarefas {
     }
   }
 
+  def adjacentCoords(coord: Coord2D, size: Int): List[Coord2D] = { //Devolve Lista de coordenadas adjacentes válidas
+    val (row, col) = coord
+    List((row - 1, col), (row + 1, col), (row, col - 1), (row, col + 1)) //Da lista de coordenandas adjacentes
+      .filter { case (x, y) => x >= 0 && x < size && y >= 0 && y < size } // Filtrar para ver quais coordenandas válidas
+  }
+
+
+  //T5
+//  def captureGroupStones(board: Board, player: Stone): (Board, Int) ={
+//
+//  }
+
 
 }
