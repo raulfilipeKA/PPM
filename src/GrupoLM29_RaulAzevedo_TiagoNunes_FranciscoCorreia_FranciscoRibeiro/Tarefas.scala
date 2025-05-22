@@ -167,12 +167,12 @@ class Tarefas {
       .filter { case (x, y) => x >= 0 && x < size && y >= 0 && y < size } // Filtrar para ver quais coordenandas válidas
   }
 
-  def findGroup(board: Board, coord: Coord2D, target: Char, visited: Set[Coord2D]): Set[Coord2D] = {
-    if (getValueAt(board, coord) != target || visited.contains(coord)) visited
+  def findGroup(board: Board, coord: Coord2D, targetStone: Char, visited: Set[Coord2D]): Set[Coord2D] = { // Encontra todas as peças conectadas a partir de uma coordenada
+    if (getValueAt(board, coord) != targetStone || visited.contains(coord)) visited
     else {
       val newVisited = visited + coord //adiciona a coordenada atual ao conjunto de visitadas
-      adjacentCoords(coord, board.length).foldLeft(newVisited) { (acc, next) => //Para todas as corrdenadas adjacentes verifcar se pertencem ao grupo
-        findGroup(board, next, target, acc)
+      adjacentCoords(coord, board.length).foldLeft(newVisited) { (accumulatedVisited, next) => //Para todas as corrdenadas adjacentes verifcar se pertencem ao grupo
+        findGroup(board, next, targetStone, accumulatedVisited)
       }
     }
   }
