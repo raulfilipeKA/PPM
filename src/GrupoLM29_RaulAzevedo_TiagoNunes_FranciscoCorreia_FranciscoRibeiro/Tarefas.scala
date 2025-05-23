@@ -177,10 +177,42 @@ class Tarefas {
     }
   }
 
+  def groupHasLiberty(board: Board, group: Set[Coord2D]): Boolean = { //retorna true caso exista uma coordenada adjacente de uma peça pertencente ao grupo
+    group.exists { coord => //exists, expressão lambda caso aja pelo menos uma que verifique essa condição
+      adjacentCoords(coord, board.length).exists { adj => //por cada coordenada group -> adjacentes para ver se é 'E'
+        getValueAt(board, adj) == 'E'
+      }
+    }
+  }
+
+  def removeGroupFromBoard (board: Board, group: Set[Coord2D]) : Board = { //remover grupo de peças da board 'capturadas'
+    group.foldLeft(board){ (newBoard, coord) =>
+      updateBoard(newBoard,coord,'E')
+    }//futuramente atualizar a função para ++peças capturadas
+  }
+
+
   //T5
-//  def captureGroupStones(board: Board, player: Stone): (Board, Int) ={
-//
-//  }
+  def captureGroupStones(coord: Coord2D, board: Board, player: Stone): (Board, Int) ={
+
+    val opponnent = player._2 match{
+      case 'B' => 'W'
+      case 'W' => 'B'
+    }
+
+    val adjacentOpponentCoords = adjacentCoords(coord, board.length) //encontra coordenadas de peças oponentes
+      .filter(adjacentCoord => getValueAt(board, adjacentCoord) == opponnent)
+
+    //Grupos de peças do player opponent
+    val opponentsGroups = adjacentOpponentCoords.map(adjacentCoord => findGroup(board,adjacentCoord,opponnent,Set.empty)).toSet
+
+    val (finalBoard, totalCaptured) = opponentsGroups.foldLeft((board, 0)) {
+      case ((currentBoard, count), group) =>
+        if (groupHasLiberty(currentBoard, group)) (currentBoard, count)
+        else (removeGroupFromBoard(currentBoard, group), count + group.size)
+    }
+    (finalBoard, totalCaptured)
+  }
 
 
 }
