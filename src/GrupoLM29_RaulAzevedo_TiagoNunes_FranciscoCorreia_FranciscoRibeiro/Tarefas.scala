@@ -193,9 +193,9 @@ class Tarefas {
 
 
   //T5
-  def captureGroupStones(coord: Coord2D, board: Board, player: Stone): (Board, Int) ={
+  def captureGroupStones(coord: Coord2D, board: Board, player: Stone): (Board, Int) ={ //titulo self explainatory
 
-    val opponnent = player._2 match{
+    val opponnent = player._2 match{ //definir oponente
       case 'B' => 'W'
       case 'W' => 'B'
     }
@@ -206,13 +206,12 @@ class Tarefas {
     //Grupos de peças do player opponent
     val opponentsGroups = adjacentOpponentCoords.map(adjacentCoord => findGroup(board,adjacentCoord,opponnent,Set.empty)).toSet
 
-    val (finalBoard, totalCaptured) = opponentsGroups.foldLeft((board, 0)) {
-      case ((currentBoard, count), group) =>
-        if (groupHasLiberty(currentBoard, group)) (currentBoard, count)
-        else (removeGroupFromBoard(currentBoard, group), count + group.size)
+    val (finalBoard, totalCaptured) = opponentsGroups.foldLeft((board, 0)) { //por cada grupo encontrado (normalmente só 1)
+      case ((currentBoard, count), group) =>                                 //percorrer grupo com valores iniciais (board,0)
+        if (groupHasLiberty(currentBoard, group)) (currentBoard, count)      //grupo tiver liberdade ent continua
+        else (removeGroupFromBoard(currentBoard, group), count + group.size) //se tiver surrounded as peças são capturadas
     }
-    (finalBoard, totalCaptured)
+    (finalBoard, totalCaptured) //retornar a board final e as peças capturadas naquela jogada
   }
-
 
 }
