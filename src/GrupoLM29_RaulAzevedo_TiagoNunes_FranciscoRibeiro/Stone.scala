@@ -1,4 +1,4 @@
-package GrupoLM29_RaulAzevedo_TiagoNunes_FranciscoCorreia_FranciscoRibeiro
+package GrupoLM29_RaulAzevedo_TiagoNunes_FranciscoRibeiro
 
 object Stone extends Enumeration {
   type Stone = Value

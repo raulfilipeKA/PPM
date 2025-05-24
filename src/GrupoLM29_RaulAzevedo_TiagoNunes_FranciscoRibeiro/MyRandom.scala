@@ -1,5 +1,4 @@
-package GrupoLM29_RaulAzevedo_TiagoNunes_FranciscoCorreia_FranciscoRibeiro
-
+package GrupoLM29_RaulAzevedo_TiagoNunes_FranciscoRibeiro
 import scala.util.Random
 
 case class MyRandom(seed: Long) extends RandomWithState {

@@ -1,10 +1,8 @@
-
-/*
 package Projeto2024
 
-import MyRandom.MyRandom
-import Tarefas._
-
+import Projeto2024.MyRandom._
+import Projeto2024.Direction
+import Projeto2024.Tarefas._
 import scala.io.StdIn.readLine
 import scala.util.Random // Importa as funções definidas no objeto Tarefas.
 
@@ -160,22 +158,22 @@ object SopaDeLetrasGame extends App { // Objeto principal do jogo
     }
   }
 
-    def endGame(gameState: GameState): Unit = {
-      val endTime = System.currentTimeMillis()
-      val totalTime = (endTime - gameState.startTime) / 1000
+  def endGame(gameState: GameState): Unit = {
+    val endTime = System.currentTimeMillis()
+    val totalTime = (endTime - gameState.startTime) / 1000
 
-      // Atualize o tempo de término no estado do jogo
-      val finalGameState = gameState.copy(endTime = endTime)
+    // Atualize o tempo de término no estado do jogo
+    val finalGameState = gameState.copy(endTime = endTime)
 
-      // Imprima o estado final do tabuleiro e as informações do jogo
-      SopaDeLetrasUtils.printGameState(finalGameState)
+    // Imprima o estado final do tabuleiro e as informações do jogo
+    SopaDeLetrasUtils.printGameState(finalGameState)
 
-      println(s"Jogo terminado. Sua pontuação foi: ${gameState.score}. Tempo total de jogo: $totalTime segundos.")
-      SopaDeLetrasUtils.printGameOver()
-      System.exit(0)
-    }
+    println(s"Jogo terminado. Sua pontuação foi: ${gameState.score}. Tempo total de jogo: $totalTime segundos.")
+    SopaDeLetrasUtils.printGameOver()
+    System.exit(0)
+  }
 
   gameLoop(gameState)
 }
 
- */
+

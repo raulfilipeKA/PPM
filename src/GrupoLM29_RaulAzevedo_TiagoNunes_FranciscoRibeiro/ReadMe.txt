@@ -1,7 +1,6 @@
 O trabalho foi realizado por:
 Raul Azevedo - 111479
 Tiago Nunes - 123298
-Francisco Correia - 105326
 Francisco Ribeiro - 123930
 
 Neste trabalho já foram implementadas as seguintes funcionalidades:
